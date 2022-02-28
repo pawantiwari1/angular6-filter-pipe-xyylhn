@@ -1,0 +1,201 @@
+<input type="text" [(ngModel)]="searchText" placeholder="search" />
+<ul>
+  <li class="list" *ngFor="let c of items | filter: searchText">
+    {{ c.title }}
+  </li>
+  <span>length : {{ items.length }} </span>
+  <br />
+  <span> display Items length: </span>
+</ul>
+
+<div>
+  <div>
+    <form [formGroup]="testform">
+      <!-- <ng-container formArrayName="dynamicForm"> -->
+
+      <ng-container
+        *ngFor="let lessonForm of dynamicForm.controls; let i = index"
+      >
+        <input
+          type="text"
+          [formControl]="name"
+          style="flex-direction:row; grid-gap:5px;margin-right:5px"
+        />
+        <input type="text" [formControl]="address" />
+        <!-- </ng-container> -->
+      </ng-container>
+    </form>
+    <button (click)="addnewRow()" style="padding:5px;margin-top:10px;">
+      Test Dynamic add row
+    </button>
+  </div>
+
+  Interview questions
+  <!--
+  *************Level 1 ***********************************
+
+//types of map
+//switchmap
+//mergemap
+//forkjoin
+//concatnet map
+//object copyobject frezse const
+//set
+//Promises 
+//Hoisting 
+//debouncing and switchmap
+
+
+//Just-in-Time (JIT), which compiles your app in the browser at runtime. This was the default until Angular 8.
+//Ahead-of-Time (AOT), which compiles your app and libraries at build time. This has been the default since Angular9.
+
+
+**************Level2: Experiance candidate *******************
+Ques Arrow and normal functions
+Ans
+1. Arrow functions do not have an arguments binding
+Example let myFunc = {  
+  showArgs : () => { 
+  console.log(...arguments); 
+ } 
+}; 
+myFunc.showArgs(1, 2, 3, 4);
+will get error in arrow functions argument is not defined
+
+2. Unlike regular functions, arrow functions do not have their own this. The value of this inside an arrow function remains the same throughout the lifecycle of the function and is always bound to the value of this in the closest non-arrow parent function.( arrow function can not access variable using this refrence but normal function can access)
+Example 
+let me = { 
+ name: "pawan", 
+ thisInArrow:() => { 
+ console.log("My name is " + this.name); // no 'this' binding here 
+ }, 
+ thisInRegular(){ 
+ console.log("My name is " + this.name); // 'this' binding works here 
+ } 
+};
+me.thisInArrow();  //output My name is
+me.thisInRegular(); //putput My name is pawan
+
+3. Regular functions created using function declarations or expressions are constructible and callable. Since regular functions are constructible, they can be called using the new keyword.
+However, the arrow functions are only callable and not constructible, i.e arrow functions can never be used as constructor functions. Hence, they can never be invoked with the new keyword.
+Example 
+let add = (x, y) => console.log(x + y);
+new add(2,3); //output return error add is not a constructor
+
+4. Arrow functions can never have duplicate named parameters, whether in strict or non-strict mode
+ Example : (x, x) => {}
+// SyntaxError: duplicate argument names not allowed in this context
+
+Ques: Sharing data 
+parent to child @Input()
+Child to parent @viewchild and @Output()
+
+Ques Difference between Map and Foreach
+Ans:
+One of the main differences between forEach() and map() methods is their ability to chain other methods. map() is chainable but forEach isn't.
+Foreach return undefined but map return new Array
+
+Ques: What is the purpose of Wildcard route?
+ANS: If the URL doesn't match any predefined routes then it causes the router to throw an error and crash the app. In this case, you can use wildcard route. A wildcard route has a path consisting of two asterisks to match every URL.
+For example, you can define PageNotFoundComponent for wildcard route as below
+{ path: '**', component: PageNotFoundComponent }
+
+
+Ques: What Is Async Pipe?
+Ans:
+Async Pipe is an impure pipe that automatically subscribes to an observable to emit the latest values. It not only subscribes to an observable, but it also subscribes to a promise and calls the then method. When the components get destroyed, it automatically unsubscribes them to reduce memory leaks.
+
+Advantages of Async Pipe
+Async Pipe makes the rendering of data from observable and promise easier.
+For promises, it automatically calls the then method.
+For observables, it automatically calls subscribe and unsubscribe.
+
+Ques: Pure and Impure pipe
+
+Pure pipes are the pipes which are executed only when a “PURE CHANGE” to the input value is detected.
+So impure pipe executes everytime irrespective of source has changed or not. which leads to bad performance. thats why it is not recommneded to use pipes for filtering data.
+
+
+Ques: What is the HTTP interceptor?
+HTTP Interceptor intercepts and handles an HTTP request or response. You create your own interceptor by implementing the HttpInterceptor interface
+
+Ques What is the host view in Angular?
+ANS: When a component is created it's directly associated with a single view that is called host view.
+
+Ques : What are the directives? How many types of directives are available in Angular
+Components - These are the directives with templates.
+Structure directives -*ngIf, *ngFor etc.
+Attribute directives 
+
+Ques: How to make a service a singleton in Angular?
+There are two ways to make a service a singleton as below.
+First way is - inject the service in root by setting 'providedIn' property to 'root' in @Injectable decorator.
+Second way is - include the service in AppModule only or in a module that is imported only in AppModule no where else
+
+******************Level3 for good experiance candidate *****************************
+
+Ques: What is Angular Ivy? 
+Answer
+A big part of Angular is its compiler: it takes all your HTML and generates the necessary JS code. This compiler (and the runtime) has been completely rewritten over the last year, and this is what Ivy is about. The last rewrite was done in Angular 4.0.
+
+Ivy is a complete rewrite of the compiler (and runtime) in order to:
+
+reach better build times (with a more incremental compilation)
+reach better build sizes (with a generated code more compatible with tree-shaking)
+unlock new potential features (metaprogramming or higher order components, lazy loading of component instead of modules, a new change detection system not based on zone.js…)
+
+Ques: Incremental dom
+Every component gets compiled into a series of instructions. These instructions create DOM trees and update them in-place when the data changes.
+
+Ques: Why Incremental DOM
+This mainly meant optimizing two things: the bundle size and the memory footprint.
+To achieve the two goals:
+The rendering engine itself has to be tree shakable
+The rendering engine has to have low memory footprint
+
+Ques: Why Incremental DOM Has Low Memory Footprint?
+Ans : https://blog.nrwl.io/understanding-angular-ivy-incremental-dom-and-virtual-dom-243be844bf36
+Virtual DOM creates a whole tree from scratch every time you rerender.
+Incremental DOM, on the other hand, doesn’t need any memory to rerender the view if it doesn’t change the DOM. We only have to allocate the memory when the DOM nodes are added or removed. And the size of the allocation is proportional to the size of the DOM change.
+
+
+
+ // ************** lavel 1,2,3 *******************************
+
+
+//css
+//What is a Pseudo element? What is pseudo-class
+
+Pseudo-classes select regular elements but under certain conditions like when the user is hovering over the link.
+
+ :link
+:visited
+:hover
+:active
+:focus
+Example
+
+a:hover {
+	color: #FFOOFF;
+}
+
+//Example of the pseudo-class, In the below example, the color applies to the anchor tag when it’s hovered.
+A pseudo-element however allows us to create items that do not normally exist in the document tree, for example ::after.
+::before
+::after
+::first-letter
+::first-line
+::selection
+
+In the below example, the color will appear only on the first line of the paragraph.
+
+p: :first-line {
+	color: #ffOOOO;
+	font-variant: small-caps;
+}
+
+Ques difference between rem and em
+Ans
+While em is relative to the font-size of its direct or nearest parent, rem is only relative to the html (root) font-size.
+
+--></div>
